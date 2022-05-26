@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.simplilearn.webservice.exception.AlreadyExist;
+import com.simplilearn.webservice.exception.InvalidException;
+import com.simplilearn.webservice.exception.NotFound;
 import com.simplilearn.webservice.model.Product;
 
 @RestController
@@ -41,7 +44,7 @@ public class ProductController {
 				return product;
 			}
 		}
-		return null;
+		throw new NotFound("Product Not found with given productId "+id);
 	}
 
 	// get one by name
@@ -57,7 +60,7 @@ public class ProductController {
 				return product;
 			}
 		}
-		return null;
+		throw new NotFound("Product Not found with given name "+name);
 	}
 
 	// search one by name
@@ -73,17 +76,24 @@ public class ProductController {
 				return product;
 			}
 		}
-		return null;
+		throw new NotFound("Product Not found with given name "+name);
 	}
 
 	// add one
 	@PostMapping("/products")
-	public Product addOne(@RequestBody Product product) {
+	public Product addOne(@RequestBody(required=false) Product product) {		
+		
 		if (product != null) {
+			for (Product prod : products) {
+				if (prod.getId() == product.getId()) {
+					throw new AlreadyExist("Product can not be create with id "+product.getId());
+				}
+			}			
 			products.add(product);
 			return product;
 		}
-		return null;
+		
+		throw new InvalidException("Product can not be create without product data ="+product);
 	}
 
 	// update one
