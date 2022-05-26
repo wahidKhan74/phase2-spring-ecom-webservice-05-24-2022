@@ -3,7 +3,13 @@ package com.simplilearn.webservice.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.simplilearn.webservice.model.Product;
@@ -15,11 +21,96 @@ public class ProductController {
 
 	// get all products
 	@GetMapping("/products")
-	public List<Product> getProducts() {
+	public List<Product> getAll() {
 		if (products.isEmpty()) {
 			addDefaults();
 		}
 		return products;
+	}
+
+	// get one by id
+	@GetMapping("/products/{id}")
+	public Product getOne(@PathVariable("id") int id) {
+		// add a products list
+		if (products.isEmpty()) {
+			addDefaults();
+		}
+		// find a product
+		for (Product product : products) {
+			if (product.getId() == id) {
+				return product;
+			}
+		}
+		return null;
+	}
+
+	// get one by name
+	@GetMapping("/product")
+	public Product getOne(@RequestParam("name") String name) {
+		// add a products list
+		if (products.isEmpty()) {
+			addDefaults();
+		}
+		// find a product
+		for (Product product : products) {
+			if (product.getName().equals(name)) {
+				return product;
+			}
+		}
+		return null;
+	}
+
+	// search one by name
+	@GetMapping("/product/search")
+	public Product searchOne(@RequestParam("name") String name) {
+		// add a products list
+		if (products.isEmpty()) {
+			addDefaults();
+		}
+		// find a product
+		for (Product product : products) {
+			if (product.getName().contains(name)) {
+				return product;
+			}
+		}
+		return null;
+	}
+
+	// add one
+	@PostMapping("/products")
+	public Product addOne(@RequestBody Product product) {
+		if (product != null) {
+			products.add(product);
+			return product;
+		}
+		return null;
+	}
+
+	// update one
+	@PutMapping("/products")
+	public Product updateOne(@RequestBody Product product) {
+		if (product != null) {
+			for (int index = 0; index < products.size(); index++) {
+				if (products.get(index).getId() == product.getId()) {
+					// replace /update on products list object
+					products.set(index, product);
+					return product;
+				}
+			}
+		}
+		return null;
+	}
+
+	// delete one
+	@DeleteMapping("/products/{id}")
+	public Product deleteOne(@PathVariable("id") int id) {
+			for (int index = 0; index < products.size(); index++) {
+				if (products.get(index).getId() == id) {
+					// delete from products list					
+					return products.remove(index);
+				}
+			}
+		return null;
 	}
 
 	// add default products
