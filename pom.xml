@@ -15,7 +15,7 @@
 	<name>phase2-spring-ecom-webservice-05-24-2022</name>
 	<description>This is a Ecommerce Restfull APIs Webservice</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 	</properties>
 	<dependencies>
 
@@ -64,6 +64,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
 	</dependencies>
 
 	<build>

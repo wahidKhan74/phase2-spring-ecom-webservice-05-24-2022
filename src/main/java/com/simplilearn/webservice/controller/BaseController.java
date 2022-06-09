@@ -35,7 +35,7 @@ public class BaseController {
 		}  else if(time>=18 & time<24) {
 			return "Good Evining!, You have done a wonderfull job";
 		}
-		return "Good Night, YOu have earn a good night sleep.";
+		return "Good Night, You have earn a good night sleep.";
 	}
 	
 	@RequestMapping(value="/users/{id}", method=RequestMethod.GET)

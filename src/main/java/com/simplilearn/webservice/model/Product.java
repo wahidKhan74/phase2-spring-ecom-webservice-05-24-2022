@@ -45,6 +45,13 @@ public class Product {
 		this.createdAt = new Date();
 	}
 	
+	public Product(String name, double price, String description, boolean available) {
+		this.name = name;
+		this.price = price;
+		this.description = description;
+		this.available = available;
+		this.createdAt = new Date();
+	}
 	
 	public int getId() {
 		return id;
